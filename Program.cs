@@ -43,9 +43,6 @@ namespace DotnetMatrix
 
                 if (Console.KeyAvailable)
                 {
-                    Console.Clear();
-
-                    Console.WriteLine(" ");
                     TypeWriterOutput(HookLine);
                     Console.WriteLine(" ");
                     break;
@@ -76,6 +73,9 @@ namespace DotnetMatrix
             Console.CursorVisible = true;
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.DarkGreen;
+
+            Console.Clear();
+            Console.WriteLine();
 
             Encoding asciiEncoding = Encoding.ASCII;
 
