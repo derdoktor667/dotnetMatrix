@@ -28,15 +28,12 @@ namespace DotnetMatrix
         static void Main(string[] args)
         {
             Console.Clear();
-
             InitializeConsole();
 
             while (true)
             {
                 if (MatrixStrings.Count < MaxStreams)
-                {
                     CreateMatrixString();
-                }
 
                 UpdateMatrixStrings();
                 RenderMatrixStrings();
@@ -44,13 +41,10 @@ namespace DotnetMatrix
                 Thread.Sleep(50);
 
                 if (Console.KeyAvailable)
-                {
                     break;
-                }
             }
 
             TypeWriterOutput(HookLine);
-
             RestoreConsoleDefaults();
 
             Console.Write("\x1B[1D"); // Move the cursor one unit to the left
@@ -74,25 +68,19 @@ namespace DotnetMatrix
         static void TypeWriterOutput(string message)
         {
             Console.Clear();
-
             InitializeConsole();
-
             Console.WriteLine(" ");
 
             Encoding asciiEncoding = Encoding.ASCII;
-
-            // ...convert the message to a byte array
             byte[] bytes = asciiEncoding.GetBytes(message);
 
             foreach (char b in bytes)
             {
-                Thread.Sleep(new Random().Next(50, 500));
+                Thread.Sleep(Random.Next(50, 500));
                 Console.Write((char)b);
             }
 
-            // ...short pause for dramatic effect
-            Thread.Sleep(250);
-
+            Thread.Sleep(250); // Pause for dramatic effect
             Console.WriteLine(" ");
         }
 
@@ -118,9 +106,7 @@ namespace DotnetMatrix
                     matrixString.DropDown();
 
                     if (Random.NextDouble() < MatrixStringEndProbability)
-                    {
                         matrixString.KillMatrixString();
-                    }
 
                     matrixString.LastUpdate = (uint)Environment.TickCount;
                 }
@@ -149,9 +135,7 @@ namespace DotnetMatrix
                         char symbol = Glyphs[Random.Next(0, Glyphs.Length)];
 
                         if (i == 0 && Random.NextDouble() < WhiteTipProbability)
-                        {
                             Console.ForegroundColor = ConsoleColor.White;
-                        }
 
                         Console.SetCursorPosition(x, y);
 
@@ -164,9 +148,7 @@ namespace DotnetMatrix
                         Console.Write(symbol);
 
                         if (i == 0 && Console.ForegroundColor == ConsoleColor.White)
-                        {
                             Console.ForegroundColor = matrixString.Color;
-                        }
                     }
                 }
             }
