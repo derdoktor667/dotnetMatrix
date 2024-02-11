@@ -10,7 +10,7 @@ namespace DotnetMatrix
         private static readonly bool InitialCursorVisible = true;
         private static readonly ConsoleColor[] Colors = [ConsoleColor.Green, ConsoleColor.DarkGreen];
         private static readonly char[] Glyphs = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+-*/%=!?#$&@()[]{}<>,;:_^~`".ToCharArray();
-        private static readonly String HookLine = "Follow the white rabbit...";
+        private static readonly string HookLine = "Follow the white rabbit...";
 
         private static readonly List<MatrixString> MatrixStrings = new List<MatrixString>();
         private const int MaxStreams = 500;
@@ -27,6 +27,8 @@ namespace DotnetMatrix
 
         static void Main(string[] args)
         {
+            Console.Clear();
+
             InitializeConsole();
 
             while (true)
@@ -43,14 +45,16 @@ namespace DotnetMatrix
 
                 if (Console.KeyAvailable)
                 {
-                    TypeWriterOutput(HookLine);
-                    Console.WriteLine(" ");
                     break;
                 }
             }
 
+            TypeWriterOutput(HookLine);
+
             RestoreConsoleDefaults();
 
+            Console.Write("\x1B[1D"); // Move the cursor one unit to the left
+            Console.Write("\x1B[1P"); // Delete the character
         }
 
         static void InitializeConsole()
@@ -58,7 +62,6 @@ namespace DotnetMatrix
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.BackgroundColor = ConsoleColor.Black;
             Console.CursorVisible = false;
-            Console.Clear();
         }
 
         static void RestoreConsoleDefaults()
@@ -70,33 +73,27 @@ namespace DotnetMatrix
 
         static void TypeWriterOutput(string message)
         {
-            Console.CursorVisible = true;
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-
             Console.Clear();
-            Console.WriteLine();
+
+            InitializeConsole();
+
+            Console.WriteLine(" ");
 
             Encoding asciiEncoding = Encoding.ASCII;
 
             // ...convert the message to a byte array
             byte[] bytes = asciiEncoding.GetBytes(message);
 
-            foreach (byte b in bytes)
+            foreach (char b in bytes)
             {
                 Thread.Sleep(new Random().Next(50, 500));
                 Console.Write((char)b);
             }
 
-            // ...give the console back
-            Console.BackgroundColor = InitialBackgroundColor;
-            Console.ForegroundColor = InitialForegroundColor;
-            Console.CursorVisible = InitialCursorVisible;
-
             // ...short pause for dramatic effect
             Thread.Sleep(250);
 
-            Console.WriteLine();
+            Console.WriteLine(" ");
         }
 
         static void CreateMatrixString()
@@ -125,7 +122,7 @@ namespace DotnetMatrix
                         matrixString.KillMatrixString();
                     }
 
-                    matrixString.LastUpdate = Environment.TickCount;
+                    matrixString.LastUpdate = (uint)Environment.TickCount;
                 }
 
                 if (matrixString.IsEnded)
@@ -183,7 +180,7 @@ namespace DotnetMatrix
         public int Length { get; set; }
         public int Speed { get; set; }
         public ConsoleColor Color { get; set; }
-        public int LastUpdate { get; set; }
+        public uint LastUpdate { get; set; }
         public bool IsEnded { get; set; }
 
         public MatrixString(int column, int row, int length, int speed, ConsoleColor color)
@@ -193,7 +190,7 @@ namespace DotnetMatrix
             Length = length;
             Speed = speed;
             Color = color;
-            LastUpdate = Environment.TickCount;
+            LastUpdate = (uint)Environment.TickCount;
             IsEnded = false;
         }
 
