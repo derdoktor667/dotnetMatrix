@@ -23,7 +23,7 @@ namespace DotnetMatrix
 
         static void Main(string[] args)
         {
-            // Stellen Sie sicher, dass die Konsole eine geeignete Schriftart verwendet
+            // Ensure the console uses an appropriate font
             Console.OutputEncoding = Encoding.UTF8;
 
             Console.Clear();
@@ -31,39 +31,39 @@ namespace DotnetMatrix
 
             while (true)
             {
-                // Erzeuge neue Matrix-Strings bis das Maximum erreicht ist
+                // Create new Matrix strings until the maximum is reached
                 if (MatrixStrings.Count < MaxStreams)
                     CreateMatrixString();
 
-                // Aktualisiere die Position und Status der Matrix-Strings
+                // Update the position and status of the Matrix strings
                 UpdateMatrixStrings();
                 
-                // Render die Matrix-Strings auf der Konsole
+                // Render the Matrix strings on the console
                 RenderMatrixStrings();
 
-                // Warte 50ms
+                // Wait for 50ms
                 Thread.Sleep(50);
 
-                // Beende das Programm, wenn eine Taste gedrückt wird
+                // End the program if a key is pressed
                 if (Console.KeyAvailable)
                     break;
             }
 
-            // Zeige die Nachricht im Typewriter-Stil an
+            // Display the message in typewriter style
             TypeWriterOutput(HookLine);
 
-            // Stelle die ursprünglichen Konsoleneinstellungen wieder her
+            // Restore the original console settings
             RestoreConsoleDefaults();
 
-            // Eine Leerzeile für das Auge
+            // A blank line for aesthetics
             Console.WriteLine(" ");
 
-            // Verschiebe den Cursor nach links und lösche das Zeichen
+            // Move the cursor to the left and delete the character
             Console.Write("\x1B[1D"); // Move the cursor one unit to the left
             Console.Write("\x1B[1P"); // Delete the character
         }
 
-        // Initialisiert die Konsoleinstellungen für den Matrix-Effekt
+        // Initialize console settings for the Matrix effect
         static void InitializeConsole()
         {
             Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -71,7 +71,7 @@ namespace DotnetMatrix
             Console.CursorVisible = false;
         }
 
-        // Stellt die ursprünglichen Konsoleneinstellungen wieder her
+        // Restore the original console settings
         static void RestoreConsoleDefaults()
         {
             Console.BackgroundColor = InitialBackgroundColor;
@@ -79,28 +79,28 @@ namespace DotnetMatrix
             Console.CursorVisible = InitialCursorVisible;
         }
 
-        // Zeigt eine Nachricht im Typewriter-Stil an
+        // Display a message in typewriter style
         static void TypeWriterOutput(string message)
         {
             Console.Clear();
             InitializeConsole();
             Console.WriteLine(" ");
 
-            // Schreibe Zeichen für Zeichen mit einer zufälligen Verzögerung
+            // Write character by character with a random delay
             foreach (char c in message)
             {
                 Thread.Sleep(Random.Next(50, 500));
                 Console.Write(c);
             }
 
-            // Kurze Pause für dramatische Wirkung
+            // Short pause for dramatic effect
             Thread.Sleep(250);
             Console.WriteLine(" ");
 
             RestoreConsoleDefaults();
         }
 
-        // Erstellt einen neuen Matrix-String
+        // Create a new Matrix string
         static void CreateMatrixString()
         {
             int column = Random.Next(Console.WindowWidth);
@@ -111,26 +111,26 @@ namespace DotnetMatrix
             MatrixStrings.Add(new MatrixString(column, -length, length, speed, color));
         }
 
-        // Aktualisiert die Matrix-Strings
+        // Update the Matrix strings
         static void UpdateMatrixStrings()
         {
             for (int i = 0; i < MatrixStrings.Count; i++)
             {
                 MatrixString matrixString = MatrixStrings[i];
 
-                // Überprüfe, ob es Zeit ist, den Matrix-String zu aktualisieren
+                // Check if it's time to update the Matrix string
                 if (Environment.TickCount - matrixString.LastUpdate > matrixString.Speed)
                 {
                     matrixString.DropDown();
 
-                    // Beende den Matrix-String zufällig
+                    // End the Matrix string randomly
                     if (Random.NextDouble() < MatrixStringEndProbability)
                         matrixString.KillMatrixString();
 
                     matrixString.LastUpdate = (uint)Environment.TickCount;
                 }
 
-                // Entferne beendete Matrix-Strings
+                // Remove ended Matrix strings
                 if (matrixString.IsEnded)
                 {
                     MatrixStrings.RemoveAt(i);
@@ -139,7 +139,7 @@ namespace DotnetMatrix
             }
         }
 
-        // Rendert die Matrix-Strings auf der Konsole
+        // Render the Matrix strings on the console
         static void RenderMatrixStrings()
         {
             foreach (MatrixString matrixString in MatrixStrings)
@@ -190,13 +190,13 @@ namespace DotnetMatrix
             IsEnded = false;
         }
 
-        // Bewegt den Matrix-String um eine Zeile nach unten
+        // Move the Matrix string down by one row
         public void DropDown()
         {
             Row++;
         }
 
-        // Markiert den Matrix-String als beendet
+        // Mark the Matrix string as ended
         public void KillMatrixString()
         {
             IsEnded = true;
