@@ -37,7 +37,7 @@ namespace DotnetMatrix
 
                 // Update the position and status of the Matrix strings
                 UpdateMatrixStrings();
-                
+
                 // Render the Matrix strings on the console
                 RenderMatrixStrings();
 
@@ -57,10 +57,6 @@ namespace DotnetMatrix
 
             // A blank line for aesthetics
             Console.WriteLine(" ");
-
-            // Move the cursor to the left and delete the character
-            Console.Write("\x1B[1D"); // Move the cursor one unit to the left
-            Console.Write("\x1B[1P"); // Delete the character
         }
 
         // Initialize console settings for the Matrix effect
@@ -69,6 +65,8 @@ namespace DotnetMatrix
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.BackgroundColor = ConsoleColor.Black;
             Console.CursorVisible = false;
+
+            Console.Clear();
         }
 
         // Restore the original console settings
