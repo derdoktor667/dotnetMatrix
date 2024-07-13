@@ -10,13 +10,13 @@ namespace DotnetMatrix
         private static readonly bool InitialCursorVisible = true;
         private static readonly ConsoleColor[] Colors = [ConsoleColor.Green, ConsoleColor.DarkGreen];
         private static readonly char[] Glyphs = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+-*/%=!?#$&@()[]{}<>,;:_^~`".ToCharArray();
-        private static readonly string HookLine = "Follow the white rabbit...";
+        private static readonly string HookLine = " Follow the white rabbit...";
         private static readonly List<MatrixString> MatrixStrings = new List<MatrixString>();
-        private const int MaxStreams = 500;
+        private const int MaxStreams = 250;
         private const int MinStreamLength = 16;
         private const int MaxStreamLength = 64;
-        private const int MinStreamSpeed = 10;
-        private const int MaxStreamSpeed = 100;
+        private const int MinStreamSpeed = 50;
+        private const int MaxStreamSpeed = 200;
         private const double ColorChangeProbability = 0.1;
         private const double WhiteTipProbability = 0.8;
         private const double MatrixStringEndProbability = 0.01;
