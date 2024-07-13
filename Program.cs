@@ -15,7 +15,7 @@ namespace DotnetMatrix
         private const int MaxStreams = 250;
         private const int MinStreamLength = 16;
         private const int MaxStreamLength = 64;
-        private const int MinStreamSpeed = 50;
+        private const int MinStreamSpeed = 10;
         private const int MaxStreamSpeed = 200;
         private const double ColorChangeProbability = 0.1;
         private const double WhiteTipProbability = 0.8;
